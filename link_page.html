@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
+  <style>
+    .section-title {
+      font-weight: 700;
+      font-size: 2rem;
+      margin-top: 3rem;
+      margin-bottom: 1.5rem;
+      border-left: 5px solid #007bff;
+      padding-left: 0.75rem;
+      color: #003366;
+    }
+    .section-content {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #444;
+    }
+    #sidebar {
+       position: fixed;
+       top: 10px;         /* 上端から10pxの位置 */
+       right: 10px;       /* 右端から10pxの位置 */
+       background: #f8f9fa;
+       padding: 10px 15px;
+       border: 1px solid #ddd;
+       box-shadow: 0 0 10px rgba(0,0,0,0.1);
+       z-index: 1050;
+       width: 300px;      /* 必要に応じて幅調整 */
+       max-height: 600; /* 高さの最大値 */
+       overflow-y: auto;  /* 高さ超過時はスクロール */
+    }
+    
+    #main-content {
+      margin-right: 320px;
+    }
+    #sharepoint-search {
+      margin-top: 3rem;
+      margin-bottom: 3rem;
+    }
+    #slideshow {
+      width: 600px;
+      height: 400px;
+      margin: 2rem auto;
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    }
+    #slideshow img {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0; left: 0;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    #slideshow img.active {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+
+  <!-- ナビゲーションバー（修正済み） -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">ホーム</a>
+    <div id="seal-items" class="d-flex align-items-center me-auto">
+
+      <div class="seal-item border-end pe-3" style="position: relative;">
+        <a href="#" class="item-link">項目1</a>
+        <div class="sub-items" style="display:none; position: absolute; top: 100%; left: 0; background: white; border: 1px solid #ddd; padding: 5px 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.15); white-space: nowrap; z-index: 9999;">
+          <a href="https://example.com/a" target="_blank">文字A</a>
+          <a href="https://example.com/b" target="_blank">文字B</a>
+        </div>
+      </div>
+      <div class="seal-item border-end pe-3" style="position: relative;">
+        <a href="#" class="item-link">項目1</a>
+        <div class="sub-items" style="display:none; position: absolute; top: 100%; left: 0; background: white; border: 1px solid #ddd; padding: 5px 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.15); white-space: nowrap; z-index: 9999;">
+          <a href="https://example.com/a" target="_blank">文字A</a>
+          <a href="https://example.com/b" target="_blank">文字B</a>
+        </div>
+      </div>
+      <div class="seal-item border-end pe-3" style="position: relative;">
+        <a href="#" class="item-link">項目1</a>
+        <div class="sub-items" style="display:none; position: absolute; top: 100%; left: 0; background: white; border: 1px solid #ddd; padding: 5px 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.15); white-space: nowrap; z-index: 9999;">
+          <a href="https://example.com/a" target="_blank">文字A</a>
+          <a href="https://example.com/b" target="_blank">文字B</a>
+        </div>
+      </div>
+      <div class="seal-item border-end pe-3" style="position: relative;">
+        <a href="#" class="item-link">項目1</a>
+        <div class="sub-items" style="display:none; position: absolute; top: 100%; left: 0; background: white; border: 1px solid #ddd; padding: 5px 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.15); white-space: nowrap; z-index: 9999;">
+          <a href="https://example.com/a" target="_blank">文字A</a>
+          <a href="https://example.com/b" target="_blank">文字B</a>
+        </div>
+      </div>
+      <div class="seal-item border-end pe-3" style="position: relative;">
+        <a href="#" class="item-link">項目1</a>
+        <div class="sub-items" style="display:none; position: absolute; top: 100%; left: 0; background: white; border: 1px solid #ddd; padding: 5px 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.15); white-space: nowrap; z-index: 9999;">
+          <a href="https://example.com/a" target="_blank">文字A</a>
+          <a href="https://example.com/b" target="_blank">文字B</a>
+        </div>
+      </div>
+      <div class="seal-item border-end pe-3" style="position: relative;">
+        <a href="#" class="item-link">項目1</a>
+        <div class="sub-items" style="display:none; position: absolute; top: 100%; left: 0; background: white; border: 1px solid #ddd; padding: 5px 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.15); white-space: nowrap; z-index: 9999;">
+          <a href="https://example.com/a" target="_blank">文字A</a>
+          <a href="https://example.com/b" target="_blank">文字B</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+<!-- スライドショーセクションなどは必要に応じてここに -->
+
+<script>
+  document.querySelectorAll('#seal-items .item-link').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const currentSubItems = e.target.nextElementSibling;
+      const allSubItems = document.querySelectorAll('#seal-items .sub-items');
+
+      allSubItems.forEach(sub => {
+        if (sub !== currentSubItems) {
+          sub.style.display = 'none';
+        }
+      });
+
+      currentSubItems.style.display =
+        currentSubItems.style.display === 'block' ? 'none' : 'block';
+    });
+  });
+
+  document.addEventListener('click', e => {
+    if (!e.target.closest('#seal-items')) {
+      document.querySelectorAll('#seal-items .sub-items').forEach(sub => sub.style.display = 'none');
+    }
+  });
+</script>
+
+</body>
+</html>
+
+
+  
+    
+
+    <!-- MOA美術館風の見出しセクション -->
+    <section>
+      <h2 class="section-title">営業契約オペレーションとは</h2>
+      <p class="section-content">
+        営業の契約書関連のフローを
+        迅速かつ正確に代行するサービスです。契約書や各種申請書の
+        押印業務を効率化し、業務負担を軽減します。
+      </p>
+      <p class="section-content">
+        最新のITツールを活用し、オンラインでの依頼から
+        押印完了までワンストップで対応可能。安心して
+        ご利用いただける体制を整えています。
+      </p>
+    </section>
+
+    <!-- SharePoint検索 -->
+    <div id="sharepoint-search">
+      <h3>SharePoint検索</h3>
+      <div class="mb-3">
+        <input type="text" id="searchInput" class="form-control" placeholder="検索キーワードを入力してください" />
+        <button class="btn btn-primary mt-2" onclick="redirectToSearch()">検索</button>
+      </div>
+    </div>
+
+    
+
+    <!-- 画像スライドショー -->
+    <div id="slideshow" aria-label="SharePoint画像スライドショー" role="region">
+      <img src="https://ccbji.sharepoint.com/:i:/r/sites/BSO752/Shared%20Documents/%E6%9D%B1%E4%BA%ACSO%E3%80%80%E6%8A%BC%E5%8D%B0%E4%BB%A3%E8%A1%8C/%E7%99%BD%E5%B5%9C%E3%80%80%E8%87%AA%E5%8B%95%E5%8C%96/realmagic-teamsbg4.jpg?csf=1&web=1&e=7bNutg" alt="画像1" class="active" />
+      <img src="https://ccbji.sharepoint.com/:i:/r/sites/BSO752/Shared%20Documents/%E6%9D%B1%E4%BA%ACSO%E3%80%80%E6%8A%BC%E5%8D%B0%E4%BB%A3%E8%A1%8C/%E7%99%BD%E5%B5%9C%E3%80%80%E8%87%AA%E5%8B%95%E5%8C%96/premium_photo-1661725357418-fb09ff7c0aae.jpg?csf=1&web=1&e=OcXFhl" alt="画像2" />
+      <img src="https://ccbji.sharepoint.com/:i:/r/sites/BSO752/Shared%20Documents/%E6%9D%B1%E4%BA%ACSO%E3%80%80%E6%8A%BC%E5%8D%B0%E4%BB%A3%E8%A1%8C/%E7%99%BD%E5%B5%9C%E3%80%80%E8%87%AA%E5%8B%95%E5%8C%96/realmagic-teamsbg5.jpg?csf=1&web=1&e=GUGGMf" alt="画像3" />
+    </div>
+  </div>
+
+ <!-- 右サイドバー（Category 固定） -->
+<aside id="sidebar" class="sidebar" aria-label="カテゴリー">
+  <h4>CATEGORY</h4>
+  <ul class="list-group">
+    <li class="list-group-item p-0 border-0">
+      <div class="accordion" id="accordionAutomation">
+        
+        <!-- 自動化保存用 -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingAutomation">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseAutomation"
+              aria-expanded="false"
+              aria-controls="collapseAutomation"
+            >
+              自動化保存用（白嵜メモ用）
+            </button>
+          </h2>
+          <div
+            id="collapseAutomation"
+            class="accordion-collapse collapse"
+            aria-labelledby="headingAutomation"
+            data-bs-parent="#accordionAutomation"
+          >
+            <div class="accordion-body p-0">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                  <a href="https://teams.microsoft.com/l/message/19:6b90b897f3af455f8725feb8136d4674@thread.tacv2/1748414426290?tenantId=52f958ed-e366-4ad5-bdcf-9115f6e29b35&groupId=0764e74f-b3f1-4872-9cab-47a2c65c4089&parentMessageId=1748414426290&teamName=%E5%96%B6%E6%A5%AD%E6%B3%95%E5%8B%99%E3%82%AA%E3%83%9A%E3%83%AC%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E8%AA%B2&channelName=%E6%9D%B1%E4%BA%ACSO%E3%80%80%E6%8A%BC%E5%8D%B0%E4%BB%A3%E8%A1%8C&createdTime=1748414426290"
+                    target="_blank" rel="noopener noreferrer">
+                    自動化保存用白嵜指示【パワーオート ver. 2023】
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 契約関連 -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingContract">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseContract"
+              aria-expanded="false"
+              aria-controls="collapseContract"
+            >
+              契約関連
+            </button>
+          </h2>
+          <div
+            id="collapseContract"
+            class="accordion-collapse collapse"
+            aria-labelledby="headingContract"
+            data-bs-parent="#accordionAutomation"
+          >
+            <div class="accordion-body p-0">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                  <a href="#" target="_blank" rel="noopener noreferrer">
+                    契約からの自動化策第１版
+                  </a>
+                </li>
+                <li class="list-group-item">
+                  <a href="#" target="_blank" rel="noopener noreferrer">
+                    押印代行資料集（新しいのにします）
+                  </a>
+                </li>
+                <li class="list-group-item">
+                  <a href="#" target="_blank" rel="noopener noreferrer">
+                    押印代行マニュアルカレンダー20231019
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 参考資料 -->
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingReference">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseReference"
+              aria-expanded="false"
+              aria-controls="collapseReference"
+            >
+              参考資料
+            </button>
+          </h2>
+          <div
+            id="collapseReference"
+            class="accordion-collapse collapse"
+            aria-labelledby="headingReference"
+            data-bs-parent="#accordionAutomation"
+          >
+            <div class="accordion-body p-0">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                  <a href="#" target="_blank" rel="noopener noreferrer">
+                    このページについて
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </li>
+  </ul>
+</aside>
+
+
+  <script>
+    // SharePoint検索フォームの処理
+    function redirectToSearch() {
+      const query = document.getElementById('searchInput').value.trim();
+      if (!query) {
+        alert('検索キーワードを入力してください。');
+        return;
+      }
+      const url = `https://ccbji.sharepoint.com/sites/BSO752/_layouts/15/search.aspx/siteall?q=${encodeURIComponent(query)}`;
+      window.open(url, '_blank');
+    }
+
+    // 画像スライドショーの簡単なJS（自動切り替え）
+    document.addEventListener('DOMContentLoaded', () => {
+      const slides = document.querySelectorAll('#slideshow img');
+      let current = 0;
+
+      setInterval(() => {
+        slides[current].classList.remove('active');
+        current = (current + 1) % slides.length;
+        slides[current].classList.add('active');
+      }, 4000);
+    });
+  </script>
+</body>
+</html>
+
+
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>スケジュール表 + 編集画面</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="p-6 bg-gray-100">
+  <h1 class="text-2xl font-bold mb-4">スケジュール編集</h1>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- 入力フォーム -->
+    <div>
+      <form id="scheduleForm" class="bg-white p-4 rounded shadow">
+        <label class="block mb-2">日付:
+          <input type="date" id="dateInput" class="border p-2 w-full">
+        </label>
+
+        <label class="block mb-2">メンバー:
+          <select id="memberInput" class="border p-2 w-full"></select>
+        </label>
+
+        <label class="block mb-2">内容:
+          <textarea id="noteInput" class="border p-2 w-full h-24"></textarea>
+        </label>
+
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">保存</button>
+      </form>
+    </div>
+
+    <!-- データ一覧 -->
+    <div>
+      <h2 class="text-xl font-semibold mb-2">登録済みスケジュール</h2>
+      <ul id="scheduleList" class="bg-white p-4 rounded shadow max-h-[500px] overflow-y-auto text-xs"></ul>
+
+      <!-- 今日と明日の予定があるメンバー表示（右下固定表示） -->
+      <div id="todayMembersIndex" class="fixed bottom-6 right-6 w-72 p-3 bg-white rounded shadow text-s">
+        <h2 class="text-sm font-semibold mb-2">今日と明日の休むメンバー</h2>
+        <ul id="todayMembersList" class="space-y-1 text-gray-700"></ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const memberList = [
+      "山本晋也", "有賀伸治", "澤野英夫", "堀田健", "澤田光規", "立石学", "藤岡徹",
+      "三原禎三", "小松めぐみ", "上泉謙一", "奥村侑子", "淀正", "山崎晃嗣", "山本浩",
+      "宮崎保浩", "白嵜洋平", "冨岡園子", "民輪由美", "船木玲子", "大屋勝", "柳澤真実",
+      "照山健作", "林康弘", "日名地知慧", "坂﨑友規", "川本雅哉", "扇柳昌英", "山下里美",
+      "猪熊亨", "足立ますみ", "蛭田裕美", "山口奈々", "上原大樹", "福島宏喜", "松本恵",
+      "荒井次男", "渡邊一矢"
+    ];
+
+    const memberInput = document.getElementById('memberInput');
+    const dateInput = document.getElementById('dateInput');
+    const noteInput = document.getElementById('noteInput');
+    const scheduleList = document.getElementById('scheduleList');
+
+    const storageKey = 'scheduleData2025';
+    let scheduleData = JSON.parse(localStorage.getItem(storageKey) || '{}');
+
+    // メンバー選択肢を生成
+    memberList.forEach(member => {
+      const opt = document.createElement('option');
+      opt.value = member;
+      opt.textContent = member;
+      memberInput.appendChild(opt);
+    });
+
+    function saveData(key, value) {
+      scheduleData[key] = value;
+      localStorage.setItem(storageKey, JSON.stringify(scheduleData));
+      renderList();
+      updateTodayMembersIndex();
+    }
+
+    function renderList() {
+      scheduleList.innerHTML = '';
+      const keys = Object.keys(scheduleData).sort();
+
+      // ヘッダー行
+      const header = document.createElement('li');
+      header.className = "font-semibold border-b border-gray-300 pb-1 mb-2 flex space-x-4";
+      header.innerHTML = `
+        <span class="w-20">日付</span>
+        <span class="w-28">名前</span>
+        <span class="flex-1">内容</span>
+        <span class="w-12"></span>`;
+      scheduleList.appendChild(header);
+
+      keys.forEach(key => {
+        const li = document.createElement('li');
+        li.className = "flex space-x-4 items-center border-b border-gray-200 py-1";
+        const date = key.slice(0, 10);
+        const member = key.slice(11);
+        li.innerHTML = `
+          <span class="w-20">${date}</span>
+          <span class="w-28">${member}</span>
+          <span class="flex-1 break-words">${scheduleData[key]}</span>
+          <button class="text-red-600 w-12 text-sm" onclick="deleteEntry('${key}')">削除</button>`;
+        scheduleList.appendChild(li);
+      });
+      updateTodayMembersIndex();
+    }
+
+    window.deleteEntry = function(key) {
+      delete scheduleData[key];
+      localStorage.setItem(storageKey, JSON.stringify(scheduleData));
+      renderList();
+      updateTodayMembersIndex();
+    }
+
+    document.getElementById('scheduleForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const date = dateInput.value;
+      const member = memberInput.value;
+      const note = noteInput.value.trim();
+      if (!date || !member || !note) return alert('すべて入力してください');
+
+      const key = `${date}-${member}`;
+      saveData(key, note);
+      dateInput.value = '';
+      noteInput.value = '';
+    });
+
+    function formatDateYYYYMMDD(date) {
+      return date.toISOString().slice(0,10);
+    }
+
+    function updateTodayMembersIndex() {
+      const today = new Date();
+      const tomorrow = new Date();
+      tomorrow.setDate(today.getDate() + 1);
+
+      const todayStr = formatDateYYYYMMDD(today);
+      const tomorrowStr = formatDateYYYYMMDD(tomorrow);
+
+      const ul = document.getElementById('todayMembersList');
+      ul.innerHTML = '';
+
+      // 今日・明日の休みの予定だけ抽出（日付・名前・内容）
+      const filtered = Object.entries(scheduleData)
+        .filter(([key, note]) => {
+          const date = key.slice(0,10);
+          return date === todayStr || date === tomorrowStr;
+        })
+        .sort((a,b) => a[0].localeCompare(b[0]));
+
+      if (filtered.length === 0) {
+        ul.innerHTML = '<li>該当するメンバーはいません</li>';
+        return;
+      }
+
+      filtered.forEach(([key, note]) => {
+        const date = key.slice(0,10);
+        const member = key.slice(11);
+        const li = document.createElement('li');
+        li.innerHTML = `<span class="font-semibold">${date}</span> / <span class="font-medium">${member}</span>: <span>${note}</span>`;
+        ul.appendChild(li);
+      });
+    }
+
+    renderList();
+  </script>
+</body>
+</html>
+
+
+  
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
